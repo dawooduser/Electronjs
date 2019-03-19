@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+First Name: <input id ="ssaa" type="text" ng-model="firstName"><br>
+<!-- Last Name: <input type="text" ng-model="lastName"><br> -->
+<button ng-click="fun()">press</button>
+<br>
+Full Name: {{firstName}}
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope,$http) {
+     $scope.firstName = "samsung s8";
+    // $scope.lastName = "Doe";
+    
+    $scope.fun = function () {
+      var string = document.getElementById("ssaa").value;
+      console.log(string);
+  $scope.item = string.split(' ').join('+');
+  console.log($scope.item);
+            data = {
+                'item' : $scope.item,
+            };
+            console.log(data)
+            
+            $http.post('http://localhost/crul.php', data)
+            .then(function(response)
+            {
+                
+                console.log(response);
+                console.log(response.data);
+            });
+
+}
+});
+</script>
+
+</body>
+</html>
+
+
