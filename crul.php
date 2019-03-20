@@ -7,6 +7,7 @@ function AmazonApi($search){
 try{
 $ch = curl_init();
 $header = array();
+$output = array();
 $header[] = "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
 $header[] = 'Cookie: x-wl-uid=1vlKm5hBxhHPg37UgkrAPYZZaV0wv+T5knGezWJq0AIEWI30hJYp0XouddMIZeemj1LKAi9fDQq7aoFN+mbvlVYPTBQVLFdzs0aeTGWtiCY0Ay63L0ezPfZRKXQHC
 /Wum4ywRviFW9es=; session-id-time=2082787201l; session-id=192-9168386-7231424; ubid-main=187-6710460-8617661
@@ -64,7 +65,7 @@ foreach($els as  $key=>$value){
         $output[] = array('img'=>$src);
 };
 
-$add_title = $xpath->query('//a[@class="a-link-normal s-access-detail-page  s-color-twister-title-link a-text-normal"]');
+$add_title = $xpath->query('//a[@class="a-link-normal s-access-detail-page s-color-twister-title-link a-text-normal"]');
 foreach($add_title as  $key=>$grabe_title){
     $kl = $add_title->item($key);
     $srttc = $kl->getAttribute('title');
@@ -81,7 +82,6 @@ foreach($divs as $span) {
     $span->nodeValue;
      $array[] =  array('price'=>$span->nodeValue);
     $output[] = array('price'=>$cost);
-  
     // json_encode($out);
 };
 // $json = array('status'=>1,'info'=>$output,'s'=>$array);
