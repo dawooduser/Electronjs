@@ -1,0 +1,243 @@
+<div class="container">
+    <div class="row col-md-6 col-md-offset-2 custyle">
+    <table class="table table-striped custab">
+    <thead>
+    <a ng-click="modal()" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new Entry</a>
+        <tr>
+            <th>ID</th>
+            <th>Month</th>
+            <th>Rent</th>
+            <th>Deducted</th>
+            <th>bill</th>
+            <th>images</th>
+            <th class="text-center">Action</th>
+        </tr>
+    </thead>
+            <tr ng-repeat="x in printData">
+            <td>{{$index}}</td>
+            <td>{{x.month}}</td>
+            <td>{{x.rent}}</td>
+            <td>{{x.deducted}}</td>
+            <td ng-click="showbill(x.id)" class='anchortag'>show bill</td>
+            <td class="text-center">
+                <a ng-click="chooseAction('edit', x.id)" class='btn btn-info btn-xs'>
+                    <span class="glyphicon glyphicon-edit">
+                    </span> Edit</a> 
+                    <a ng-click="chooseAction('delete', x.id)" class="btn btn-danger btn-xs">
+                <span class="glyphicon glyphicon-remove"></span> Del</a></td>
+            </tr>
+    </table>
+    </div>
+</div>
+<style>
+.anchortag {
+     cursor:pointer;
+     color:blue;
+     text-decoration:underline;
+}
+.anchortag:hover {
+     text-decoration:none;
+     text-shadow: 1px 1px 1px #555;
+}
+.custab{
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 5% 0;
+    box-shadow: 3px 3px 2px #ccc;
+    transition: 0.5s;
+    }
+.custab:hover{
+    box-shadow: 3px 3px 0px transparent;
+    transition: 0.5s;
+    }
+</style>
+
+<div id="modalExample" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-xs-center">Log in like a Boss</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" name="_token" value="">
+                    <div class="form-group">
+                        <label class="control-label">Month</label>
+                        <div>
+                            <select ng-model='month' month-options></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Rent</label>
+                        <div>
+                            <input type="number" ng-model="Rent" class="form-control input-lg">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Deducted</label>
+                        <div>
+                            <input type="number" ng-model="Deducted" 
+                            class="form-control input-lg">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Bills</label>
+                        <div>
+                            k-electic: <input type="checkbox" ng-model="kelectic"
+                             class="form-control input-lg">
+                             SSGC: <input type="checkbox" ng-model="SSGC"
+                             class="form-control input-lg">
+                             Water Board: <input type="checkbox" ng-model="WaterBoard"
+                             class="form-control input-lg">
+                             other Expense: <input type="checkbox" ng-model="Expense"
+                             class="form-control input-lg">
+                        </div>
+                        <div style="flex-direction: column;">
+                            <input ng-show="kelectic" type="number" ng-model="kelecticAmount" 
+                            placeholder="k-electic"
+                             class="form-control input-lg">
+                             <input ng-show="SSGC" type="number" ng-model="SSGCAmount" 
+                             placeholder="SSGC"
+                             class="form-control input-lg">
+                             <input ng-show="WaterBoard" type="number" ng-model="WaterBoardAmount" 
+                             placeholder="Water Board"
+                             class="form-control input-lg">
+                             <input ng-show="Expense" type="number" ng-model="ExpenseAmount" 
+                             placeholder="Expense"
+                             class="form-control input-lg">
+                        </div>
+                        <div>
+                            <input ng-show="kelectic" type="file" 
+                             class="form-control input-lg"
+                             fileread="kelecticbill" 
+                             accept="image/png, image/jpeg, image/jpg, "
+                             >
+                             <input ng-show="SSGC" type="file" 
+                             class="form-control input-lg"
+                             ng-model="ssgcbill"
+                             accept="image/png, image/jpeg, image/jpg, "
+                             >
+                             <input ng-show="WaterBoard" type="file"
+                             class="form-control input-lg"
+                             ng-model="waterBoardbill"
+                             accept="image/png, image/jpeg, image/jpg, "
+                             >
+                             <input ng-show="Expense" type="file"
+                             class="form-control input-lg"
+                             ng-model="expenseBill"
+                             accept="image/png, image/jpeg, image/jpg, "
+                             >
+                        </div>
+
+                    </div>
+                <!-- <div class="form-group">
+                        <div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="remember"> Remember Me
+                                </label>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <div>
+                            <button ng-click="addAndEdit()" class="btn btn-info btn-block">Login</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer text-xs-center">
+                Don't have an account? <a href="/auth/register">Sign up »</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+
+
+
+
+
+
+<!-- ---------------------------- show bill modal --------------------------- -->
+
+<div id="billModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="classInfo" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×
+              </button>
+              <h4 class="modal-title" id="classModalLabel">
+                    bill Info
+                  </h4>
+            </div>
+            <div class="modal-body">
+              <table id="classTable" class="table table-bordered">
+                <thead>
+                        <tr>
+                                <td>Serial No.</td>
+                                <td>Name</td>
+                                <td>Bill Amount</td>
+                                <td>Reason</td>
+                                <td>image</td>
+                              </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="b in billPrint">
+                            <td>{{$index}}</td>
+                            <td>{{b.name}}</td>
+                            <td>{{b.Amount}}</td>
+                            <td ng-click="showimage(b.imageName)" class='anchortag'>show images</td>
+                            <td ng-if="b.Reason !== undefine || b.Reason !== null">
+                                {{b.Reason}}</td>
+                            
+                    </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+          <div id="imageModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="classInfo" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-body">
+                            <div id='preview'></div>
+                    </div>
+                    <div class="modal-footer">
+                            <div ng-click='closeImagebtn()' class="btn btn-primary">
+                                    Close
+                              </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+          <!-- <script>
+          function centerModal() {
+    $(this).css('display', 'block');
+    var $dialog = $(this).find("#taha121@gmailcom");
+    var offset = ($(window).height() - $dialog.height()) / 2;
+    // Center modal vertically in window
+    $dialog.css("margin-top", offset);
+}
+
+$('#imageModal').on('show.bs.modal', centerModal);
+// $(window).on("resize", function () {
+//     $('.modal:visible').each(centerModal);
+// });
+          </script> -->
+         
+      
